@@ -78,7 +78,7 @@ def trainData(N_par, x, y, l_rate, r_var, N_step):
         reg_vec = l_rate/m * r_var* h_vec
         reg_vec[0] = 0.
         for i in range(m):
-            h_vec -= l_rate/m * (np.dot(X[i], h_tmp) - y[i]) * X[i] - reg_vec
+            h_vec -= l_rate/m * (np.dot(X[i], h_tmp) - y[i]) * X[i] + reg_vec
     return h_vec
 
 '''ploting the plot results'''
@@ -124,6 +124,14 @@ for i in range(3):
         for k in range(N_list[i]+1):
             y_plt[j] += par_vec[k]*x_plt[j]**k
     ax.plot(x_plt, y_plt, '--', color=colors[i], label=labels[i])
+
+i = 2
+par_vec = trainData(N_list[i], x_train, y_train, rate_list[i], 0.0001, Ns_list[i])
+y_plt = np.zeros(len(x_plt))
+for j in range(len(x_plt)):
+    for k in range(N_list[i]+1):
+        y_plt[j] += par_vec[k]*x_plt[j]**k
+ax.plot(x_plt, y_plt, ':', color=colors[i], label="after regularization")
 
 
 ax.set_xlabel('x1 Label')
